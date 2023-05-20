@@ -1,0 +1,41 @@
+.header {
+    margin-top: 65px;
+    margin-bottom: 70px;
+    display: flex;
+    justify-content: space-around;
+
+    &__left-block {
+        width: 650px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+    }
+
+    button {
+        width: 150px;
+        height: 28px;
+        background: orangered;
+        font-weight: 700;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+
+    }
+
+    &__links {
+        display: flex;
+        justify-content: space-between;
+        //width: 300px;
+    }
+
+    &__link {
+        font-size: 20px;
+        display: block;
+        margin-left: 12px;
+        color: darkgrey;
+
+    }
+
+
+}
