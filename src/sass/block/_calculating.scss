@@ -3,8 +3,8 @@
     height: 700px;
     .title {
         text-align: center;
-        color: rgb(238, 156, 4);
-        margin-bottom: 20px;
+        color: rgb(238, 70, 4);
+        margin-bottom: 30px;
         font-weight: 300;
     }
     &__field {
@@ -55,7 +55,7 @@
             transition: 0.3s all;
             &_active {
                 color: #fff;
-                background-color: $primary;
+                background-color: green;
             }
         }
         &_medium {
@@ -97,7 +97,7 @@
 
             &_active {
                 color: #fff;
-                background-color: $primary;
+                background-color: green;
             }
         }
 

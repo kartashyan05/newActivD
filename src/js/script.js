@@ -328,10 +328,10 @@ window.addEventListener('DOMContentLoaded', () => {
             //request.setRequestHeader('Content-type', 'application/json');
             const formData = new FormData(form);
 
-            /*  const object = {};
+             const object = {};
              formData.forEach(function (value, key) {
                  object[key] = value;
-             }); */
+             });
 
             const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
@@ -403,12 +403,12 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 4000);
     }
 
-    /* fetch(' http://localhost:3000/menu')
+   /*  fetch(' http://localhost:3000/menu')
         .then(data => data.json())
-        .then(res => console.log(res)); */
+        .then(res => console.log(res));
 
 
-    /*  fetch('https://jsonplaceholder.typicode.com/posts', {
+     fetch('https://jsonplaceholder.typicode.com/posts', {
          method: "Post",
          body: JSON.stringify({ name: 'Alex' }),
          headers: {
