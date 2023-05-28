@@ -124,5 +124,18 @@
         margin: 40px auto;
         background-color: rgba(63, 199, 45, 0.8);
     }
+    &__total{
+        width: 500px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items:center;
+    }
+   /*  &__result{
+        span{
+            font-size: 36px;
+                color: red;
+        }
+    } */
     
 }
