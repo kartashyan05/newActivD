@@ -638,7 +638,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
      if (localStorage.getItem('ratio')) {
-        sex = localStorage.getItem('ratio');
+        ratio = localStorage.getItem('ratio');
     } else {
         ratio = 1.375;
         localStorage.setItem('ratio', 1.375);
@@ -649,7 +649,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         elements.forEach(elem => {
             elem.classList.remove(activeClass);
-            if (elem.getAttribute('id') === localStorage.getItem(sex)) {
+            if (elem.getAttribute('id') === localStorage.getItem('sex')) {
                 elem.classList.add(activeClass);
             }
             if (elem.getAttribute('data-ratio') === localStorage.getItem('ratio')) {
@@ -658,8 +658,8 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    initLocalSetings('#gender', 'calculating__choose-item_active');
-    initLocalSetings('.calculating__choose_big', 'calculating__choose-item_active');
+    initLocalSetings('#gender div', 'calculating__choose-item_active');
+    initLocalSetings('.calculating__choose_big div', 'calculating__choose-item_active');
 
     function calcTotal() {
         if (!sex || !height || !weight || !age || !ratio) {
@@ -677,8 +677,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     calcTotal();
 
-    function getStaticInformation(parentSelector, activeClass) {
-        const elements = document.querySelectorAll(`${parentSelector} div`);
+    function getStaticInformation(selector, activeClass) {
+        const elements = document.querySelectorAll(selector);
 
         elements.forEach(elem => {
             elem.addEventListener('click', (e) => {
@@ -705,8 +705,8 @@ window.addEventListener('DOMContentLoaded', () => {
         
     }
 
-    getStaticInformation('#gender', 'calculating__choose-item_active');
-    getStaticInformation('.calculating__choose_big', 'calculating__choose-item_active');
+    getStaticInformation('#gender div', 'calculating__choose-item_active');
+    getStaticInformation('.calculating__choose_big div', 'calculating__choose-item_active');
 
     function getDynamicInformation(selector) {
         const input = document.querySelector(selector);
