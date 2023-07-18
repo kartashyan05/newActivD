@@ -1,10 +1,40 @@
 "use strict";
+import "./sass/style.scss";
+import tabs from "./js/pack/tabs";
+import modal from "./js/pack/modal";
+import timer from "./js/pack/timer";
+import cards from "./js/pack/cards";
+import calculator from "./js/pack/calculator";
+import forms from "./js/pack/forms";
+import sliders from "./js/pack/sliders";
+import { openModal } from "./js/pack/modal";
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener("DOMContentLoaded", () => {
+  const modalTimerId = setTimeout(
+    () => openModal(".modal_wind", modalTimerId),
+    50000
+  );
 
-    //Tabs
+  tabs(".menu__item", ".tabcontent", ".menu_items", "menu__item_active");
+  modal("[data-modal]", ".modal_wind", modalTimerId);
+  timer(".timer", "2023-08-30");
+  cards();
+  calculator();
+  forms("form", modalTimerId);
+  sliders({
+    container: ".offer__slider",
+    prevArrow: ".offer__slider-prev",
+    nextArrow: ".offer__slider-next",
+    slide: ".offer__slide",
+    totalCounter: "#total",
+    currentCounter: "#current",
+    wrapper: ".offer__slider-wrapper",
+    field: ".offer__slider-inner",
+  });
+});
 
-    const tabs = document.querySelectorAll('.menu__item'),
+//Tabs
+/*   const tabs = document.querySelectorAll('.menu__item'),
         tabsContent = document.querySelectorAll('.tabcontent'),
         tabsParent = document.querySelector('.menu_items');
     
@@ -39,135 +69,72 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }
-    });
+    }); */
+//Timer
+/*  const deadline = "2023-05-30";
 
-    //Timer
+  function getTimeRemaining(endtime) {
+    let days, hours, minutes, seconds;
+    const t = Date.parse(endtime) - Date.parse(new Date());
 
-    const deadline = '2023-05-30';
-
-    function getTimeRemaining(endtime) {
-        let days, hours, minutes, seconds;
-        const t = Date.parse(endtime) - Date.parse(new Date());
-
-        if (t <= 0) {
-            days = 0;
-            hours = 0;
-            minutes = 0;
-            seconds = 0;
-        } else {
-            days = Math.floor(t / (1000 * 60 * 60 * 24)),
-                hours = Math.floor((t / (1000 * 60 * 60) % 24)),
-                minutes = Math.floor((t / 1000 / 60) % 60),
-                seconds = Math.floor((t / 1000) % 60);
-        }
-           
-        
-        return {
-            'total': t,
-            'days': days,
-            'hours': hours,
-            'minutes': minutes,
-            'seconds': seconds
-
-        };
-                  
-            
+    if (t <= 0) {
+      days = 0;
+      hours = 0;
+      minutes = 0;
+      seconds = 0;
+    } else {
+      (days = Math.floor(t / (1000 * 60 * 60 * 24))),
+        (hours = Math.floor((t / (1000 * 60 * 60)) % 24)),
+        (minutes = Math.floor((t / 1000 / 60) % 60)),
+        (seconds = Math.floor((t / 1000) % 60));
     }
 
-    function getZero(num) {
-        if (num >= 0 && num < 10) {
-            return `0${num}`;
-        } else {
-            return num;
-        }
-            
+    return {
+      total: t,
+      days: days,
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds,
+    };
+  }
+
+  function getZero(num) {
+    if (num >= 0 && num < 10) {
+      return `0${num}`;
+    } else {
+      return num;
     }
+  }
 
-    function setClock(selector, endtime) {
-        const timer = document.querySelector(selector),
-            days = timer.querySelector('#days'),
-            hours = timer.querySelector('#hours'),
-            minutes = timer.querySelector('#minutes'),
-            seconds = timer.querySelector('#seconds'),
-            timeInterval = setInterval(updateClock, 1000);
-        
-        updateClock();
-        
-        function updateClock() {
-            const t = getTimeRemaining(endtime);
+  function setClock(selector, endtime) {
+    const timer = document.querySelector(selector),
+      days = timer.querySelector("#days"),
+      hours = timer.querySelector("#hours"),
+      minutes = timer.querySelector("#minutes"),
+      seconds = timer.querySelector("#seconds"),
+      timeInterval = setInterval(updateClock, 1000);
 
-            days.innerHTML = getZero(t.days);
-            hours.innerHTML = getZero(t.hours);
-            minutes.innerHTML = getZero(t.minutes);
-            seconds.innerHTML = getZero(t.seconds);
+    updateClock();
 
-            if (t.total <= 0) {
-                clearInterval(timeInterval);
-            }
-        }
+    function updateClock() {
+      const t = getTimeRemaining(endtime);
+
+      days.innerHTML = getZero(t.days);
+      hours.innerHTML = getZero(t.hours);
+      minutes.innerHTML = getZero(t.minutes);
+      seconds.innerHTML = getZero(t.seconds);
+
+      if (t.total <= 0) {
+        clearInterval(timeInterval);
+      }
     }
+  }
 
-    setClock('.timer', deadline);
-    
-
-    //Modal
-
-    const modalTrigger = document.querySelectorAll('[data-modal]');
-    const modal = document.querySelector('.modal_wind');
-    //const modalCloseBtn = document.querySelector('[data-close]');
-
-    function openModal() {
-        modal.classList.add('show');
-        modal.classList.remove('hide');
-        //modal.classList.toggle('show');
-        document.body.style.overflow = 'hidden';
-        clearInterval(modalTimerId);
-    }
-
-    
-    
-    modalTrigger.forEach(btn => {
-        btn.addEventListener('click', openModal);
-    });
-
-    
-    function closeModal() {
-        modal.classList.add('hide');
-        modal.classList.remove('show');
-        //modal.classList.toggle('show');
-        document.body.style.overflow = '';
-    }
-        
-
-    //modalCloseBtn.addEventListener('click', closeModal);
-
-
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal || e.target.getAttribute('data-close') == '') {
-            closeModal();
-        }
-    });
-    
-    document.addEventListener('keydown', (e) => {
-        if (e.code === "Escape" && modal.classList.contains('show')) {
-            closeModal();
-        }
-    });
-
-    const modalTimerId = setTimeout(openModal, 50000);
-
-    function showModalByScroll() {
-        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
-            openModal();
-            window.removeEventListener('scroll', showModalByScroll);
-        }
-    }
-
-    window.addEventListener('scroll', showModalByScroll);
-    
-    // Используем классы для карточек
-
-    class MenuCard {
+  setClock(".timer", deadline); */
+//Modal
+/* y
+// Используем классы для карточек
+/*  class MenuCard {
         constructor(src, alt, title, descr, price, parentSelector, ...classes) {
             this.src = src;
             this.alt = alt;
@@ -225,18 +192,14 @@ window.addEventListener('DOMContentLoaded', () => {
              data.forEach(({img, altimg, title, descr, price}) => {
                  new MenuCard(img, altimg, title, descr, price, '.menu2__field .container').render();
              });
-         });
-    
-    /* axios.get('http://localhost:3000/menu')
+         }); */
+/* axios.get('http://localhost:3000/menu')
         .then(data => {
             data.data.forEach(({ img, altimg, title, descr, price }) => {
                 new MenuCard(img, altimg, title, descr, price, '.menu2__field .container').render();
             });
         }); */
-    
-    
-
-    /* new MenuCard(
+/* new MenuCard(
         "img/tabs/vegy.jpg",
         "vegy",
         "Меню 'Фитнес'",
@@ -273,12 +236,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     ).render(); */
-
-
-
-    //Forms
-
-    const forms = document.querySelectorAll('form');
+//Forms
+/* const forms = document.querySelectorAll('form');
 
     const message = {
         loading: 'img/form/spinner.svg',
@@ -311,46 +270,34 @@ window.addEventListener('DOMContentLoaded', () => {
             statusMessage.style.cssText = `
             display:block;
             margin:0 auto;
-            `;
-            //form.append(statusMessage);
-            form.insertAdjacentElement('afterend', statusMessage);
-
-            /*  const statusMessage = document.createElement('div');
+            `; */
+//form.append(statusMessage);
+//form.insertAdjacentElement('afterend', statusMessage);
+/*  const statusMessage = document.createElement('div');
             statusMessage.classList.add('status');
             statusMessage.textContent = message.loading;
             form.append(statusMessage); */
-
-            //const request = new XMLHttpRequest();
-            //request.open('POST', 'server.php');
-
-            
-
-            //request.setRequestHeader('Content-type', 'application/json');
-            const formData = new FormData(form);
-
-            /*  const object = {};
+//const request = new XMLHttpRequest();
+//request.open('POST', 'server.php');
+//request.setRequestHeader('Content-type', 'application/json');
+//const formData = new FormData(form);
+/*  const object = {};
              formData.forEach(function (value, key) {
                  object[key] = value;
              }); */
-
-            const json = JSON.stringify(Object.fromEntries(formData.entries()));
-
-            //const obj = { a: 23, b: 50 };
-            //console.log(Object.entries(obj));
-
-            //const json = JSON.stringify(object);
-
-            //request.send(json);
-
-
-            /* fetch('server.php', {
+//const json = JSON.stringify(Object.fromEntries(formData.entries()));
+//const obj = { a: 23, b: 50 };
+//console.log(Object.entries(obj));
+//const json = JSON.stringify(object);
+//request.send(json);
+/* fetch('server.php', {
                 method: "Post",
                 headers: {
                     'Content-type': 'application/json',
                 },
                 body: JSON.stringify(object)
             }) */
-            postData('http://localhost:3000/requests', json)
+/*  postData('http://localhost:3000/requests', json)
                 //.then(data => data.text())
                 .then(data => {
                     console.log(data);
@@ -362,8 +309,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 }).finally(() => {
                     form.reset();
                 });
-
-            /*  request.addEventListener('load', () => {
+ */
+/*  request.addEventListener('load', () => {
                  if (request.status === 200) {
                      console.log(request.response);
                      //statusMessage.textContent = message.success;
@@ -375,7 +322,7 @@ window.addEventListener('DOMContentLoaded', () => {
                      //statusMessage.textContent = message.failure;
                  }
              }); */
-        });
+/*   });
     }
 
     function showThanksModal(message) {
@@ -401,9 +348,8 @@ window.addEventListener('DOMContentLoaded', () => {
             closeModal();
 
         }, 4000);
-    }
-
-   /*  fetch(' http://localhost:3000/menu')
+    } */
+/*  fetch(' http://localhost:3000/menu')
         .then(data => data.json())
         .then(res => console.log(res));
 
@@ -418,12 +364,8 @@ window.addEventListener('DOMContentLoaded', () => {
          .then(response => response.json())
          .then(json => console.log(json));
   */
-    
-    
-    
-    //Slider
-
-    const slides = document.querySelectorAll('.offer__slide'),
+//Slider
+/* const slides = document.querySelectorAll('.offer__slide'),
         slider = document.querySelector('.offer__slider'),
         prev = document.querySelector('.offer__slider-prev'),
         next = document.querySelector('.offer__slider-next'),
@@ -573,9 +515,8 @@ window.addEventListener('DOMContentLoaded', () => {
             dots.forEach(dot => dot.style.opacity = '.5');
             dots[slideIndex - 1].style.opacity = 1;
         });
-    })
-
-    /* showSlides(slideIndex);
+    }) */
+/* showSlides(slideIndex);
 
     if (slides.length < 10) {
         total.textContent = `0${slides.length}`;
@@ -615,20 +556,14 @@ window.addEventListener('DOMContentLoaded', () => {
         plusSlides(1);
      });
      */
-
-    
-    
-    
-    
-    //Calculator
-    
-    const result = document.querySelector('.calculating__result span');
-    /* let sex = female,
+//Calculator
+//const result = document.querySelector('.calculating__result span');
+/* let sex = female,
         height,
         weight,
         age,
         ratio = 1.375; */
-    let sex, height, weight, age, ratio;
+/*  let sex, height, weight, age, ratio;
     
     if (localStorage.getItem('sex')) {
         sex = localStorage.getItem('sex');
@@ -741,6 +676,4 @@ window.addEventListener('DOMContentLoaded', () => {
 
     getDynamicInformation('#height');
     getDynamicInformation('#weight');
-     getDynamicInformation('#age');
-          
-});
+     getDynamicInformation('#age'); */
